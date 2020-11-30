@@ -1,5 +1,11 @@
 ---
 
+#- name: Install Docker
+#  hosts: gds_hosts
+#  become: true
+#  roles:
+#    - role: geerlingguy.docker
+
 - name: Deploy Get Datetime Server
   hosts: gds_hosts
   roles:
