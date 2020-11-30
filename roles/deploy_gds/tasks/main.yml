@@ -1,7 +1,8 @@
 ---
 # tasks file for deploy_gds
 
-- name: Create temporary build directory
+- name: Create local temporary build directory
+  delegate_to: 127.0.0.1
   tempfile:
     state: directory
     suffix: build
@@ -23,3 +24,24 @@
     archive_path: "{{ path4build.path }}/get_datetime_server.tar"
     state: present
 
+- name: Create temporary load image directory
+  become: true
+  tempfile:
+    state: directory
+    suffix: load
+  register: path4load
+
+# Copy docker image of Get Datetime Server to the target host
+- name: Copy docker image
+  become: true
+  copy:
+    src: "{{ path4build.path }}/get_datetime_server.tar"
+    dest: "{{ path4load.path }}"
+
+# Load docker image on the target host
+- name: Load docker image
+  become: true
+  docker_image:
+    name: "get_datetime_server"
+    load_path: "{{ path4load.path }}/get_datetime_server.tar"
+    state: present
