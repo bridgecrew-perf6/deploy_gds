@@ -1,8 +1,7 @@
 ---
 # tasks file for deploy_gds
 
-- name: Create local temporary build directory
-  become: true
+- name: Create temporary build directory
   tempfile:
     state: directory
     suffix: build
@@ -10,15 +9,24 @@
 
 # Git clone
 - name: Clone Get Datetime Server project
-  become: true
   git:
     repo: "https://github.com/jim1406g/get_datetime_server.git"
     dest: "{{ path4build.path }}"
 
 # Docker build
 - name: Build docker image
-  become: true
   docker_image:
     name: "get_datetime_server"
-    build_path: "{{ path4build.path }}"
+    build:
+      path: "{{ path4build.path }}"
+      pull: no
+    force_source: yes
+    source: build
     state: present
+
+- name: Delete temporary build directory
+  file:
+    path: "{{ path4build.path }}"
+    state: absent
+
+- include: install_service.yml

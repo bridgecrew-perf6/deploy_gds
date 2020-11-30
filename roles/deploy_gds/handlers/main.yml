@@ -1,2 +1,7 @@
 ---
 # handlers file for deploy_gds
+- name: "Restart GDS service"
+  service:
+    name: "gds"
+    state: restarted
+    enabled: yes

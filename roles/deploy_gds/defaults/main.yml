@@ -1,2 +1,4 @@
 ---
 # defaults file for deploy_gds
+
+gds_home: "/opt/gds"

@@ -14,5 +14,6 @@
 
 - name: Deploy Get Datetime Server
   hosts: gds_hosts
+  become: true
   roles:
     - role: roles/deploy_gds

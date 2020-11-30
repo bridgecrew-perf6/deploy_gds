@@ -1,0 +1,36 @@
+- name: "Create {{ gds_home }}"
+  file:
+    path: "{{ gds_home }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: "Copy Compose file {{ gds_home }}/gds-compose.yml"
+  template:
+    src: templates/gds-compose.yml.j2
+    dest: "{{ gds_home }}/gds-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - "Restart GDS service"
+
+- name: "Copy systemd service file /etc/systemd/system/gds.service"
+  template:
+    src: templates/gds.service.j2
+    dest: "/etc/systemd/system/gds.service"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  notify:
+    - "Restart GDS service"
+
+- name: "Enable GDS service"
+  systemd:
+    name: "gds"
+    enabled: yes
+
+- name: "Start GDS service"
+  service:
+    name: "gds"
+    state: started
