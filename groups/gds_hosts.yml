@@ -1,0 +1,7 @@
+---
+
+gds_hosts:
+  hosts:
+    infra-dev-int1:
+      ansible_host: 51.15.247.212
+      ansible_port: 22

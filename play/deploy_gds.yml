@@ -1,0 +1,6 @@
+---
+
+- name: Deploy Get Datetime Server
+  hosts: gds_hosts
+  roles:
+    - role: roles/deploy_gds

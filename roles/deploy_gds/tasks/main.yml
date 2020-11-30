@@ -1,0 +1,25 @@
+---
+# tasks file for deploy_gds
+
+- name: Create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: path4build
+
+# Git clone
+- name: Clone Get Datetime Server project
+  delegate_to: 127.0.0.1
+  git:
+    repo: "https://github.com/jim1406g/get_datetime_server.git"
+    dest: "{{ path4build.path }}"
+
+# Docker build
+- name: Build docker image
+  delegate_to: 127.0.0.1
+  docker_image:
+    name: "get_datetime_server"
+    build_path: "{{ path4build.path }}"
+    archive_path: "{{ path4build.path }}/get_datetime_server.tar"
+    state: present
+
