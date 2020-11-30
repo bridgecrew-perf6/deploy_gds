@@ -1,10 +1,16 @@
 ---
 
+- hosts: localhost
+  tasks:
+    - name: Install requirements ansible roles
+      command: "ansible-galaxy install -r ../requirements.yml"
+
 - name: Install Docker
   hosts: gds_hosts
   become: true
   roles:
     - role: geerlingguy.docker
+    - role: geerlingguy.pip
 
 - name: Deploy Get Datetime Server
   hosts: gds_hosts

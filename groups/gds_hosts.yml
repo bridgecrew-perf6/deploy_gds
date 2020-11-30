@@ -1,6 +1,9 @@
 ---
 
 gds_hosts:
+  vars:
+    pip_install_packages:
+      - name: docker
   hosts:
     infra-dev-int1:
       ansible_host: 51.15.247.212
