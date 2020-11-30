@@ -1,0 +1,17 @@
+[Unit]
+Description=Get Datetime Server service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory={{ gds_home }}
+
+# Compose up
+ExecStart=/usr/local/bin/docker-compose -f gds-compose.yml up
+
+# Compose down, remove containers and volumes
+ExecStop=/usr/local/bin/docker-compose -f gds-compose.yml down -v
+
+[Install]
+WantedBy=multi-user.target
